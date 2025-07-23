@@ -1,0 +1,7 @@
+
+%form{:action => "/contacts", :method => "get", :class => "tool-bar"}
+  %label{:for => "search"} Search Term
+  %input#search{
+    :type => "search", :name => "q", :value => params.fetch('q', '')
+  }
+  %input{:type => "submit", :value => "Search"}
