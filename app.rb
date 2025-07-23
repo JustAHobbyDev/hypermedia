@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'models/contacts'
 
 get '/' do
   redirect '/contacts', 303
