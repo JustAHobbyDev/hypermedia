@@ -65,16 +65,17 @@ class Contact
   @@contacts = DB.new("db")
 
   attr_accessor :first, :last, :email, :phone
-  attr_reader :id
+  attr_reader :id, :errors
 
   @@valid_keys = [:id, :first, :last, :email, :phone]
 
-  def initialize(params)
+  def initialize(params={})
     @first = params.fetch(:first, "")
     @last = params.fetch(:last, "")
     @email = params.fetch(:email, "")
     @phone = params.fetch(:phone, "")
     @id = nil # ID assigned by DB#save
+    @errors = {}
   end
 
   def self.all

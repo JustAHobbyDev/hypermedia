@@ -25,3 +25,14 @@ get '/contacts' do
 
   haml :index
 end
+
+get '/contacts/new' do
+  @contact = Contact.new
+  haml :new
+end
+
+post '/contacts/new' do
+  @contact = Contact.new(params)
+  @contact.save
+  haml :new
+end
