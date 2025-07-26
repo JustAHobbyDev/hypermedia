@@ -138,11 +138,11 @@ RSpec.describe Contact do
     it 'returns all contacts from DB' do
       contact = Contact.new(valid_params)
       contact.save
-      expect(contact.all).to eq([contact])
+      expect(Contact.all).to eq([contact])
     end
 
     it 'returns empty array when no contacts exist' do
-      expect(Contact.new({}).all).to eq([])
+      expect(Contact.all).to eq([])
     end
   end
 
@@ -150,7 +150,7 @@ RSpec.describe Contact do
     it 'returns Success for existing contact' do
       contact = Contact.new(valid_params)
       contact.save
-      result = contact.find(1)
+      result = Contact.find(1)
       expect(result).to be_a(Result::Success)
       expect(result.action).to eq(:find)
       expect(result.data).to eq(contact)
@@ -158,7 +158,7 @@ RSpec.describe Contact do
     end
 
     it 'returns Failure for non-existent id' do
-      result = Contact.new({}).find(999)
+      result = Contact.find(999)
       expect(result).to be_a(Result::Failure)
       expect(result.action).to eq(:find)
       expect(result.message).to eq("[contacts]: id[999] not found")
@@ -175,7 +175,7 @@ RSpec.describe Contact do
       expect(result.message).to eq("Saved #{contact}")
       expect(result.data).to eq({ id: 1 })
       expect(contact.id).to eq(1)
-      expect(contact.all).to eq([contact])
+      expect(Contact.all).to eq([contact])
     end
 
     it 'updates existing contact with matching id' do
@@ -188,8 +188,8 @@ RSpec.describe Contact do
       expect(result.action).to eq(:save)
       expect(result.message).to eq("Updated #{contact2}")
       expect(result.data).to eq({ id: 1 })
-      expect(contact2.all).to eq([contact2])
-      expect(contact2.all.first.first).to eq("Bob")
+      expect(Contact.all).to eq([contact2])
+      expect(Contact.all.first.first).to eq("Bob")
     end
   end
 
@@ -202,7 +202,7 @@ RSpec.describe Contact do
       expect(result.action).to eq(:delete)
       expect(result.message).to eq("[contacts]: deleted #{contact}")
       expect(result.data).to eq({ id: 1 })
-      expect(contact.all).to be_empty
+      expect(Contact.all).to be_empty
     end
 
     it 'returns Failure when contact not found' do
@@ -212,7 +212,7 @@ RSpec.describe Contact do
       expect(result.action).to eq(:delete)
       expect(result.message).to eq("[contacts]: id[#{contact.id}] not found")
       expect(result.data).to eq({ id: contact.id })
-      expect(contact.all).to be_empty
+      expect(Contact.all).to be_empty
     end
   end
 

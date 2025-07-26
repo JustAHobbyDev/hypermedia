@@ -65,11 +65,11 @@ class Contact
     @id = nil # ID assigned by DB#save
   end
 
-  def all
+  def self.all
     @@contacts.all
   end
 
-  def find(id)
+  def self.find(id)
     @@contacts.find(id)
   end
 
