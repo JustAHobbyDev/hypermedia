@@ -43,6 +43,18 @@ class DB
     Result::Success.new(action: :find, message: "[#{@name}]: found #{found}", data: found)
   end
 
+  def search(query)
+    hits = []
+    @all.each do |contact|
+      if contact.first.include?(query) || contact.last.include?(query) || contact.email.include?(query) || contact.phone.include?(query)
+        hits.push(contact)
+      end
+    end
+    if hits
+      Result::Success.new(action: :search, message: "[#{name}]: Search Term:#{query}, hits count: #{hits.length}", data: hits)
+    end
+  end
+
   private
 
   attr_writer :id
@@ -71,6 +83,11 @@ class Contact
 
   def self.find(id)
     @@contacts.find(id)
+  end
+
+  def self.search(query)
+    response = @@contacts.search(query)
+    response.data
   end
 
   def save
