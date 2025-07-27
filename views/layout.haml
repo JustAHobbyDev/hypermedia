@@ -14,7 +14,7 @@
         %h1
           .allcaps contacts.app
           .sub-title A Demo Contacts Application
-      -# - for message in get_flashed_messages():
-      -#   .flash= message
+      - if flash[:success]
+        .flash-success= flash[:success]
       .content
         != yield

@@ -17,3 +17,7 @@ group :development do
   gem "rake", "~> 13.3"
 end
 
+
+gem "sinatra-flash", "~> 0.3.0"
+
+gem "dotenv", "~> 3.1"
