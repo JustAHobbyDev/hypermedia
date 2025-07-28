@@ -38,9 +38,10 @@ class DB
   end
 
   def find(id)
-    found = @all.find { |entry| entry.id == id }
-    return Result::Failure.new(action: :find, message: "[#{@name}]: id[#{id}] not found", data: { id: id }) unless found
-    Result::Success.new(action: :find, message: "[#{@name}]: found #{found}", data: found)
+    contact_found = @all.find { |entry| entry.id == id }
+    return Result::Failure.new(action: :find, message: "[#{@name}]: id[#{id}] not found", data: { id: id }) unless contact_found
+    puts contact_found
+    Result::Success.new(action: :find, message: "[#{@name}]: found #{contact_found}", data: contact_found)
   end
 
   def search(query)
@@ -83,7 +84,7 @@ class Contact
   end
 
   def self.find(id)
-    @@contacts.find(id)
+    response = @@contacts.find(id)
   end
 
   def self.search(query)

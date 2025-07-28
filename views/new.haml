@@ -3,19 +3,19 @@
     %legend Contact Values
     %p
       %label{:for => "email"} Email
-      %input#email{ type: "email", name: "email", placeholder: "Email", value: ( @contact.email or '' ) }
+      %input#email{ type: "email", name: "email", placeholder: "youremail@provider.com", value: ( @contact.email or '' ) }
       %span.error= @contact.errors['email']
 
-      %label{:for => "First Name"} Email
+      %label{:for => "First Name"} First Name
       %input#first_name{ type: "text", name: "first", placeholder: "First Name", value: ( @contact.first or '' ) }
       %span.error= @contact.errors['first']
 
-      %label{:for => "Last Name"} Email
+      %label{:for => "Last Name"} Last Name
       %input#last_name{ type: "text", name: "last", placeholder: "Last Name", value: ( @contact.last or '' ) }
       %span.error= @contact.errors['last']
 
-      %label{:for => "Email"} Email
-      %input#phone{ type: "text", name: "phone", placeholder: "Phone", value: ( @contact.phone or '' ) }
+      %label{:for => "phone"} Phone
+      %input#phone{ type: "text", name: "phone", placeholder: "555-555-5555", value: ( @contact.phone or '' ) }
       %span.error= @contact.errors['phone']
     %button Save
 %p

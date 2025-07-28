@@ -1,0 +1,11 @@
+- if @contact
+  %p= "Name: #{@contact.first} #{@contact.last}"
+  %p 
+    %span Email:  
+    %a{ href: "mailto:#{@contact.email}" }= "#{@contact.email}"
+  %p= "Phone: #{@contact.phone}"
+- else
+  .flash-failure= flash[:error]
+
+%a.edit{ href: "/contacts/#{@contact.id}/edit"} Edit
+%a.back{ href: '/contacts'} Back

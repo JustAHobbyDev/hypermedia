@@ -6,16 +6,33 @@ require 'logger'
 require 'haml'
 require_relative 'models/contact'
 
-logger = Logger.new(STDOUT)
-logger.level = Logger::Severity::INFO
-
 class ContactApp < Sinatra::Base
   register Sinatra::Flash
+
+  logger = Logger.new(STDOUT)
+  logger.level = Logger::Severity::INFO
 
   configure do
     set :public_folder, Proc.new { File.join(root, 'static') }
     enable :sessions
     set :session_secret, ENV['SESSION_SECRET']
+
+    contact_data_list = [
+      { first: "Jane", last: "Doe", email: "jane.doe@example.com", phone: "555-123-4567" },
+      { first: "John", last: "Smith", email: "john.smith@example.com", phone: "555-987-6543" },
+      { first: "Alice", last: "Wonderland", email: "alice@example.com", phone: "555-555-1111" },
+      { first: "Bob", last: "The Builder", email: "bob@example.com", phone: "555-777-2222" }
+    ]
+
+    contact_data_list.each do |contact_data|
+      contact = Contact.new(contact_data)
+      if contact.save
+        logger.info "Seeded contact #{contact.first} #{contact.last}"
+      else
+        logger.error "Failed to save contact: #{contact}"
+      end
+    end
+
   end
 
   get '/' do
@@ -29,6 +46,7 @@ class ContactApp < Sinatra::Base
       @contacts = Contact.search(query)
     else
       @contacts = Contact.all
+      logger.info(@contacts)
     end
 
     haml :index
@@ -45,4 +63,31 @@ class ContactApp < Sinatra::Base
     flash[:success] = "Created New Contact!"
     haml :new
   end
+
+  get '/contacts/:id' do
+    id = params[:id].to_i
+    response = Contact.find(id)
+    logger.info(response)
+    if response.is_a? Result::Success
+      @contact = response.data
+    else
+      flash[:error] = response.message
+      logger.error(response.message)
+    end
+    haml :show
+  end
+
+  # get '/contacts/:id/edit' do
+  #   id = params[:id].to_i
+  #   response = Contact.find(id)
+  #   logger.info(response)
+  #
+  #   if response.is_a? Result::Success
+  #     @contact = response.data
+  #   else
+  #     flash[:error] = response.message
+  #     logger.error(response.message)
+  #   end
+  #   haml :new
+  # end
 end
