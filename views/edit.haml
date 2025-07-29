@@ -19,7 +19,7 @@
       %span.error= @contact.errors['phone']
     %button Save
 
-%form.delete{ action: "/contacts/#{@contact.id}/delete", method: "post" }
+%form.delete{ "hx-delete": "/contacts/#{@contact.id}", "hx-target": "body" }
   %button Delete Contact
 
 %p

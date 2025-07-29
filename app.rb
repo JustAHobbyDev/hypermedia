@@ -112,7 +112,7 @@ class ContactApp < Sinatra::Base
     logger.error(response.message)
   end
 
-  post '/contacts/:id/delete' do
+  delete '/contacts/:id' do
     id = params[:id].to_i
     response = Contact.find(id)
     logger.info(response)
@@ -129,6 +129,6 @@ class ContactApp < Sinatra::Base
       flash[:error] = response.message
     end
 
-    redirect '/contacts'
+    redirect '/contacts', 303
   end
 end
