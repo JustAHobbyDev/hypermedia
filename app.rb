@@ -61,7 +61,7 @@ class ContactApp < Sinatra::Base
     @contact = Contact.new(params)
     @contact.save
     flash[:success] = "Created New Contact!"
-    haml :new
+    redirect '/'
   end
 
   get '/contacts/:id' do
@@ -77,17 +77,37 @@ class ContactApp < Sinatra::Base
     haml :show
   end
 
-  # get '/contacts/:id/edit' do
-  #   id = params[:id].to_i
-  #   response = Contact.find(id)
-  #   logger.info(response)
-  #
-  #   if response.is_a? Result::Success
-  #     @contact = response.data
-  #   else
-  #     flash[:error] = response.message
-  #     logger.error(response.message)
-  #   end
-  #   haml :new
-  # end
+  get '/contacts/:id/edit' do
+    id = params[:id].to_i
+    response = Contact.find(id)
+    logger.info(response)
+
+    if response.is_a? Result::Success
+      @contact = response.data
+    else
+      flash[:error] = response.message
+      logger.error(response.message)
+    end
+    haml :edit
+  end
+
+  post '/contacts/:id/edit' do
+    id = params[:id].to_i
+    response = Contact.find(id)
+    logger.info(response)
+
+    if response.is_a? Result::Success
+      @contact = response.data
+      args = {}
+      args[:first] = params.fetch(:first, @contact.first)
+      args[:last]  = params.fetch(:last, @contact.last)
+      args[:email] = params.fetch(:email, @contact.email)
+      args[:phone] = params.fetch(:phone, @contact.phone)
+      @contact.update(args)
+      redirect  "/contacts/#{@contact.id}"
+    end
+
+    flash[:error] = response.message
+    logger.error(response.message)
+  end
 end
