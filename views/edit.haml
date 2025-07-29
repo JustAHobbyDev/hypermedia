@@ -1,4 +1,4 @@
-%form.contact-new-form{ action: "/contacts/#{@contact.id}/edit", method: "post" }
+%form.contact-edit{ action: "/contacts/#{@contact.id}/edit", method: "post" }
   %fieldset
     %legend Contact Values
     %p
@@ -18,5 +18,9 @@
       %input#phone{ type: "text", name: "phone", placeholder: "555-555-5555", value: ( @contact.phone or '' ) }
       %span.error= @contact.errors['phone']
     %button Save
+
+%form.delete{ action: "/contacts/#{@contact.id}/delete", method: "post" }
+  %button Delete Contact
+
 %p
   %a{ href: "/contacts" } Back

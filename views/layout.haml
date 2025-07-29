@@ -15,6 +15,7 @@
           .allcaps contacts.app
           .sub-title A Demo Contacts Application
       - if flash[:success]
-        .flash-success= flash[:success]
+        -# .flash-success= flash[:success]
+        != styled_flash
       .content
         != yield

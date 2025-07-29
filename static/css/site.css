@@ -1,3 +1,20 @@
+/* /static/css/site.css */
+#flash:has(~ *) {
+    margin-bottom: 24px;
+}
+
+.flash.success {
+    color: #2fb755;
+    border-width: 2px;
+    border: solid;
+    padding: 18px 12px;
+    border-radius: 8px;
+}
+
+.flash.failure {
+    color: #2fb755;
+}
+
 .search-form {
     margin-bottom: 24px;
 }

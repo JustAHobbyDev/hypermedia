@@ -70,11 +70,12 @@ class ContactApp < Sinatra::Base
     logger.info(response)
     if response.is_a? Result::Success
       @contact = response.data
+      haml :show
     else
       flash[:error] = response.message
       logger.error(response.message)
+      redirect '/contacts'
     end
-    haml :show
   end
 
   get '/contacts/:id/edit' do
@@ -109,5 +110,25 @@ class ContactApp < Sinatra::Base
 
     flash[:error] = response.message
     logger.error(response.message)
+  end
+
+  post '/contacts/:id/delete' do
+    id = params[:id].to_i
+    response = Contact.find(id)
+    logger.info(response)
+
+    if response.is_a? Result::Success
+      @contact = response.data
+      deletion = @contact.delete
+      if deletion.is_a? Result::Success
+        flash[:success] = "Contact Deleted!"
+      else
+        flash[:error] = deletion.message
+      end
+    else
+      flash[:error] = response.message
+    end
+
+    redirect '/contacts'
   end
 end
